@@ -8,7 +8,7 @@ Created on Mon Nov 28 10:26:15 2022
 
 """
 This code reads the file of the cfg format (which is used to developing machine learning package using MTP)
-and extract volume and energy from the cfg file.
+and extract volume and energy per atom from the cfg file.
 """
 def read_cfg_extract_EV(filename):
     
@@ -21,6 +21,10 @@ def read_cfg_extract_EV(filename):
     
     #Storing index of lines for extracting energy values
     energy_line_number = []
+
+    #Storing index of lines for extracting number of ataoms for each configuration
+    num_of_atoms_line_number = []
+
     
     #Opening the file for reading
     file = open(filename,'r')
@@ -33,9 +37,12 @@ def read_cfg_extract_EV(filename):
             
         if 'Energy' in line: #Searching for 'Energy' keyword
             energy_line_number.append(index + 1)
+
+        if 'Size' in line: #Searching for 'Size' keyword
+            num_of_atoms_line_number.append(index + 1)
      
-    #Arrays for storing volume and energies
-    volumes, energies = [], []
+    #Arrays for storing volume, energies, and num_of_atoms
+    volumes, energies, num_of_atoms = [], [], []
     
     #Extracting box size information for the indexes stored earlier while looking for the keywords
     for i in range(len(index_of_line_start)):
@@ -55,21 +62,33 @@ def read_cfg_extract_EV(filename):
         #Getting energies
         energy = linecache.getline(filename, energy_line_number[i] + 1)
         energies.append(float(energy))
+
+        #Getting number of atoms
+        num_of_atom = linecache.getline(filename, num_of_atoms_line_number[i] + 1)
+        num_of_atoms.append(int(num_of_atom))
+
+        #converting system total energy to energy per atom
+        energies_per_atom = []
+        for j in range(0,len(energies)):
+            energy_per_atom = energies[j] / num_of_atoms[j]
+            energies_per_atom.append(energy_per_atom)
+
     
     #Stacking volumes and energies and saving it to the text file
-    data = np.vstack((volumes, energies))
+    data = np.vstack((volumes, energies_per_atom))
     data = data.transpose()
     np.savetxt('E-V_data-' + filename + '.txt', data)
     
     #plotting the EV graph
     import matplotlib.pyplot as plt
-    plt.plot(volumes, energies,'*--')
+    plt.plot(volumes, energies_per_atom,'*--')
     plt.xlabel('Volume')
-    plt.ylabel('Energy')
+    plt.ylabel('Energy per atom')
     plt.savefig('E-V_curve-' + filename + '.pdf')
     return()
     
-read_cfg_extract_EV('predicted_efs.cfg')    
+filename = str(input('Enter file name: '))
+read_cfg_extract_EV(filename)    
         
         
         
