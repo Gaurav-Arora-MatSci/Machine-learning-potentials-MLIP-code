@@ -66,11 +66,14 @@ def read_POSCAR_make_cfg(filename):
     f.close()
     return(f)
 
-num_of_files = int(input("Enter the number of POSCAR files: ")
+num_of_files = int(input("Enter the number of POSCAR files: "))
+filename_ = str(input("Enter the generic filename for POSCAR (excluding the number extension): "))
+
 filenames = []
 for i in range (0,num_of_files):
-    output =  read_POSCAR_make_cfg('POSCAR' + str(i))
-    filename = str(output)[25:43]
+    output =  read_POSCAR_make_cfg(filename_ + str(i))
+    #filename = str(output)[25:43]
+    filename = str(output)[25:-28]
     filenames.append(filename)
     
 from os import system
