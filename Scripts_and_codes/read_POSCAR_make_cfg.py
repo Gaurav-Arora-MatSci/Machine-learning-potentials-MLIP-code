@@ -15,7 +15,7 @@ def read_POSCAR_make_cfg(filename):
     #Reading POSCAR file
     file = open(str(filename), 'r')
     
-    #readin each line of the POSCAR file
+    #reading each line of the POSCAR file
     system_info = file.readline()
     _ = file.readline()
     #reading and storing box dimensions
