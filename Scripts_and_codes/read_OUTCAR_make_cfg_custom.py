@@ -195,7 +195,7 @@ def read_OUTCAR_make_cfg_last_config(filename):
     f.close()
     return(f, dict_of_elements)
 
-num_of_files = int(input("Enter the number of POSCAR files: "))
+num_of_files = int(input("Enter the number of OUTCAR files: "))
 filename_ = str(input("Enter the generic filename for OUTCAR (excluding the number extension): "))
 
 

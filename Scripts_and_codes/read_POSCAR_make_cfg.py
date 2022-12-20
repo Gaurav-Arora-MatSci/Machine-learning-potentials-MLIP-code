@@ -56,8 +56,14 @@ def read_POSCAR_make_cfg(filename):
     list_of_elements = np.concatenate(list_of_elements)
     
     #assigning elements unique identity
-    elements_name = ['Ni', 'Cu', 'Cr', 'Co', 'Sc', 'V', 'Fe', 'Pd']
-    ids = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
+    elements_name = ['Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu',\
+    'Zn', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', \
+    'Hf', 'Ta', 'W', 'Os', 'Ir', 'Pt', 'Au', 'Hg',\
+    'Al']
+    ids = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',\
+    '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',\
+    '20', '21', '22', '23', '24', '25', '26', '27', \
+    '28'] #Unique ids, change this according to the system you will be working on
     dict_of_elements = dict(zip(elements_name, ids))
     
     #Writing cfg file
@@ -95,7 +101,7 @@ filename_ = str(input("Enter the generic filename for POSCAR (excluding the numb
 
 
 filenames = []
-for i in range (0,num_of_files):
+for i in range (1,num_of_files+1):
     output, dicti =  read_POSCAR_make_cfg(filename_ + str(i))
     filename = str(output)[25:-28] #extracting the name of the file
     filenames.append(filename)
