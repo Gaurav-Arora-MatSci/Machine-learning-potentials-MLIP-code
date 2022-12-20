@@ -8,6 +8,8 @@ Created on Thu Dec 15 11:19:45 2022
 This code takes OUTCAR file as input and converts it to a cfg file to be read by
 MLIP code. Default command for converting OUTCAR to cfg file cannot be used as it 
 does not recognizes the different elements used. This code only reads the last configuration.
+Please mind with the name of potentials used, it could be different than actual element name. For
+example Y can be Y_sv.
 """
 
 def read_OUTCAR_make_cfg_last_config(filename):
