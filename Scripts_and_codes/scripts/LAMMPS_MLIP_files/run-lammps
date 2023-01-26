@@ -1,0 +1,36 @@
+# initialization
+units		metal
+atom_style	charge
+neigh_modify	delay 0 every 1
+boundary	p p p
+
+# simulation box
+read_data	in.str
+mass    1	58.6934
+mass	2 	55.845
+mass 	3	51.9961
+mass 	4 	28.01
+mass	5 	63.546 
+
+group Nickel 	type 1
+group Copper 	type 2
+group Gold   	type 3
+group Palladium type 4
+group Platinum	type 5
+
+
+# force field
+pair_style      mlip mlip.ini #set for MTP  
+pair_coeff      * * 
+
+
+#----------- Perform minimization 1 ----------#
+#Setup minimizatin style
+dump 2 all custom 1000 dumps/dump_file*.lammpstrj id type xu yu zu
+fix boxrelax_fix all box/relax aniso 0.0 vmax 0.001
+thermo 100
+thermo_style custom step etotal lx ly lz
+min_style cg
+minimize 1.0e-10 1.0e-10 10000 10000
+unfix boxrelax_fix
+
