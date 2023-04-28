@@ -1,18 +1,19 @@
 #!/bin/bash
-#SBATCH --account=rd-hea
-#SBATCH --time=48:00:00
-#SBATCH --job-name=mlp
+#SBATCH --account=hpt_rad
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=16
-#SBATCH --mem-per-cpu=8000
+#SBATCH --job-name=mlp_mpi
+#SBATCH --time=08:00:00
+#SBATCH --qos=regular
 
-#load intel, impi and vasp
-module load gcc/12.2.0
-module load openmpi/4.1.4
+#Load modules
+module load intel/19.1.3.304
+module load oneapi/2022.2.0
+module load mpi/2021.6.0
+module load mkl/2022.1.0
 
 start=$(date +%s.%N)
-srun mlp train init.mtp train.cfg --pot-name=pot.mtp > job.log
+mpirun -n 16 mlp train init.mtp train.cfg --max-iter=10 --pot-name=pot.mtp > job.log
 duration=$(echo "$(date +%s.%N) - $start" | bc)
-echo $duration
-echo "Done."
-
+execution_time=`printf "%.2f seconds" $duration`
+echo $execution_time
