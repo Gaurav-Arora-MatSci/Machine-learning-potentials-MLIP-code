@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # # This code reads cfg file and deletes the configurations which has energy greater than zero. Deleting of these configurations ensures only good configurations are used while training. 
-
-# In[13]:
-
 
 # Define the input and output file names
 input_file = "Cr70Mn30.cfg"
@@ -32,7 +26,7 @@ with open(input_file, 'r') as file:
             if energy_value is None or energy_value <= 0:
                 configurations.append(current_config)  # Add the configuration to the list
         elif inside_config:
-            current_config.append(line.strip())
+            current_config.append(line)  # Preserve the line as it is
             if read_energy:
                 try:
                     energy_value = float(line)
@@ -44,18 +38,11 @@ with open(input_file, 'r') as file:
 
 # Now, 'configurations' contains a list of arrays, each array representing a configuration
 
-# Save the remaining configurations to the output file
+# Save the remaining configurations to the output file, preserving formatting
 with open(output_file, 'w') as output:
     for config in configurations:
         for line in config:
-            output.write(line + '\n')
+            output.write(line)
         output.write('\n')  # Write a one-line gap between configurations
 
 print(f"Filtered configurations saved to {output_file}")
-
-
-# In[ ]:
-
-
-
-
