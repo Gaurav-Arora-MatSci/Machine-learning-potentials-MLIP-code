@@ -36,6 +36,9 @@ with open(input_file, 'r') as file:
             if "Energy" in line:
                 read_energy = True
 
+# Count the number of filtered configurations
+filtered_config_count = len(configurations)
+
 # Now, 'configurations' contains a list of arrays, each array representing a configuration
 
 # Save the remaining configurations to the output file, preserving formatting
@@ -46,3 +49,4 @@ with open(output_file, 'w') as output:
         output.write('\n')  # Write a one-line gap between configurations
 
 print(f"Filtered configurations saved to {output_file}")
+print(f"Number of filtered configurations: {filtered_config_count}")
